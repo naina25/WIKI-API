@@ -86,6 +86,18 @@ app.route("/article/:articleId")
                 }
         })
     })
+    .delete((req, res) => {
+        Article.deleteOne(
+            {_id: req.params.articleId},
+            (err, result) => {
+                if(!err){
+                    res.send("Successfully deleted the article")
+                }else{
+                    res.send(err)
+                }
+            }
+        )
+    })
 
 app.listen(3030, function() {
   console.log("Server started on port 3030");
