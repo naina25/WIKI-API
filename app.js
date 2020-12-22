@@ -74,6 +74,18 @@ app.route("/article/:articleId")
                 }
         })
     })
+    .patch((req, res) => {
+        Article.updateOne(
+            {_id: req.params.articleId},
+            {$set: req.body },
+            (err, result) => {
+                if(!err){
+                    res.send(result)
+                }else{
+                    res.send(err)
+                }
+        })
+    })
 
 app.listen(3030, function() {
   console.log("Server started on port 3030");
