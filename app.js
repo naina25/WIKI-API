@@ -49,6 +49,17 @@ app.route("/articles")
         })
     })
 
+app.route("/article/:articleId")
+    .get((req, res) => {
+        Article.findById({_id: req.params.articleId}, (err, foundArticle) => {
+            if(!err){
+                res.send(foundArticle)
+            }else{
+                res.send(err)
+            }
+        })
+    })
+
 app.listen(3030, function() {
   console.log("Server started on port 3030");
 });
