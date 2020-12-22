@@ -29,6 +29,17 @@ app.get("/articles", (req, res) => {
     })  
 })
 
+app.post("/articles", (req, res) => {
+    const article = new Article({title: req.body.title, content: req.body.content});
+    article.save((err, newArticle) => {
+        if(!err){
+            res.redirect("Successfully created an article on wiki");
+        }else{
+            res.send(err);
+        }
+    })
+})
+
 app.listen(3030, function() {
   console.log("Server started on port 3030");
 });
