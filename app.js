@@ -19,36 +19,35 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
-app.get("/articles", (req, res) => {
-    Article.find((err, foundArticles) => {
-        if(!err){
-            res.send(foundArticles);
-        }else{
-            res.send(err);
-        }
-    })  
-})
-
-app.post("/articles", (req, res) => {
-    const article = new Article({title: req.body.title, content: req.body.content});
-    article.save((err, newArticle) => {
-        if(!err){
-            res.redirect("Successfully created an article on wiki");
-        }else{
-            res.send(err);
-        }
+app.route("/articles")
+    .get((req, res) => {
+        Article.find((err, foundArticles) => {
+            if(!err){
+                res.send(foundArticles);
+            }else{
+                res.send(err);
+            }
+        })  
     })
-})
-
-app.delete("/articles", (req, res) => {
-    Article.deleteMany((err) => {
-        if(!err) {
-            res.send("All the articles have been removed from the database");
-        }else{
-            res.send(err);
-        }
+    .post((req, res) => {
+        const article = new Article({title: req.body.title, content: req.body.content});
+        article.save((err, newArticle) => {
+            if(!err){
+                res.send("Successfully created an article on wiki");
+            }else{
+                res.send(err);
+            }
+        })
     })
-})
+    .delete((req, res) => {
+        Article.deleteMany((err) => {
+            if(!err) {
+                res.send("All the articles have been removed from the database");
+            }else{
+                res.send(err);
+            }
+        })
+    })
 
 app.listen(3030, function() {
   console.log("Server started on port 3030");
